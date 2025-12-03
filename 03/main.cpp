@@ -25,15 +25,35 @@ size_t jolts(const std::string &bank, size_t n) {
   return atoll(num.c_str());
 }
 
+size_t jolts_alternative(const std::string &bank, size_t n) {
+  size_t k = bank.size() - n;
+  std::string num;
+  for (char c : bank) {
+    while (num.size() > 0 && num.back() < c && k > 0) {
+      num.pop_back();
+      k--;
+    }
+    num.push_back(c);
+  }
+  num.resize(n);
+  return atoll(num.c_str());
+}
+
 void part1(const std::string &fn) {
   const auto ip = aoc::read_file(fn);
-  size_t ans1{}, ans2{};
+  size_t ans1a{}, ans1b{}, ans1c{}, ans2a{}, ans2b{};
   for (const auto &s : ip) {
-    ans1 += jolts(s, 2);
-    ans2 += jolts(s, 12);
+    ans1a += jolts(s, 2);
+    ans1b += jolts(s, 2);
+    ans1c += jolts_alternative(s, 2);
+    ans2a += jolts(s, 12);
+    ans2b += jolts_alternative(s, 12);
   }
-  std::println("day 03 part 1 = {} ({})", ans1, fn);
-  std::println("day 03 part 2 = {} ({})", ans2, fn);
+  std::println("day 03 part 1a = {} ({})", ans1a, fn);
+  std::println("day 03 part 1b = {} ({})", ans1b, fn);
+  std::println("day 03 part 1c = {} ({})", ans1c, fn);
+  std::println("day 03 part 2a = {} ({})", ans2a, fn);
+  std::println("day 03 part 2b = {} ({})", ans2b, fn);
 }
 
 int main() {
