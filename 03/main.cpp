@@ -43,7 +43,7 @@ void part1(const std::string &fn) {
   const auto ip = aoc::read_file(fn);
   size_t ans1a{}, ans1b{}, ans1c{}, ans2a{}, ans2b{};
   for (const auto &s : ip) {
-    ans1a += jolts(s, 2);
+    ans1a += jolts_2_digits(s);
     ans1b += jolts(s, 2);
     ans1c += jolts_alternative(s, 2);
     ans2a += jolts(s, 12);
