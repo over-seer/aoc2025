@@ -31,7 +31,7 @@ RotateResult rotate(const int pos, const std::string &instr) {
 void both_parts(const std::string &ip) {
   const auto v = aoc::read_file(ip);
   int ans1{}, ans2{}, pos{50};
-  for (const std::string s : v) {
+  for (const std::string & s : v) {
     const auto result = rotate(pos, s);
     if (result.pos == 0)
       ans1++;
