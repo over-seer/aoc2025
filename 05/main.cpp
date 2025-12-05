@@ -58,13 +58,13 @@ void part2(const std::string &fn) {
     }
   }
   merged.insert(Lims{lo_curr, hi_curr});
-  //std::println("{}", lims);
-  //std::println("{}", merged);
+  // std::println("{}", lims);
+  // std::println("{}", merged);
 
   auto rangelen = [](const Lims &p) { return p[1] - p[0] + 1; };
 
-  const auto ans =
-      std::ranges::fold_left(merged | std::views::transform(rangelen), 0, std::plus());
+  const auto ans = std::ranges::fold_left(
+      merged | std::views::transform(rangelen), 0, std::plus());
 
   std::println("day 05 part 2 = {} ({})", ans, fn);
 }
