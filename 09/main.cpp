@@ -68,15 +68,11 @@ void part2(const std::string &fn) {
   const auto ip = parse(fn);
   const auto areas = get_areas(ip);
 
-  // create a wrapped-around version of input
-  const auto ip2 = [&]() {
-    auto cp = ip;
-    cp.push_back(ip.front());
-    return cp;
-  }();
-  const auto lines = ip2 | std::views::pairwise;
+  // create a wrapped-around version of input as lines (pairs of points)
+  const auto lines = std::views::concat(ip, std::views::single(ip.front())) |
+                     std::views::pairwise;
 
-  auto result =
+  const auto result =
       std::ranges::find_if(areas | std::views::reverse, [&](const auto &t) {
         return is_rg(lines, std::get<1>(t), std::get<2>(t));
       });
