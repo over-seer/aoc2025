@@ -4,19 +4,20 @@
 #include "aoc.h"
 
 using Vec2 = std::array<int64_t, 2>;
+enum XY : size_t { X, Y };
 
 auto parse(const std::string &fn) {
   auto parse_line = [](const std::string &s) {
     const std::array<std::string, 2> nos = aoc::splitn<2, ','>(s);
-    return Vec2{atoll(nos[0].c_str()), atoll(nos[1].c_str())};
+    return Vec2{atoll(nos[X].c_str()), atoll(nos[Y].c_str())};
   };
   return aoc::read_file(fn) | std::views::transform(parse_line) |
          std::ranges::to<std::vector>();
 }
 
 auto area(const Vec2 &pos1, const Vec2 &pos2) {
-  const auto dx = std::abs(pos1[0] - pos2[0]) + 1;
-  const auto dy = std::abs(pos1[1] - pos2[1]) + 1;
+  const auto dx = std::abs(pos1[X] - pos2[X]) + 1;
+  const auto dy = std::abs(pos1[Y] - pos2[Y]) + 1;
   return dx * dy;
 }
 
@@ -41,21 +42,21 @@ void part1(const std::string &fn) {
 }
 
 bool is_rg(const auto &lines, const Vec2 &c1, const Vec2 &c2) {
-  const auto [x1, x2] = std::minmax(c1[0], c2[0]);
-  const auto [y1, y2] = std::minmax(c1[1], c2[1]);
+  const auto [x1, x2] = std::minmax(c1[X], c2[X]);
+  const auto [y1, y2] = std::minmax(c1[Y], c2[Y]);
   auto is_overlap = [](int64_t a0, int64_t a1, int64_t b0, int64_t b1) {
     return a0 < b1 && b0 < a1;
   };
   for (const auto [v1, v2] : lines) {
-    if (v1[0] == v2[0]) {
-      const auto lx = v1[0];
-      const auto [ly1, ly2] = std::minmax(v1[1], v2[1]);
+    if (v1[X] == v2[X]) {
+      const auto lx = v1[X];
+      const auto [ly1, ly2] = std::minmax(v1[Y], v2[Y]);
       if (lx > x1 && lx < x2 && is_overlap(ly1, ly2, y1, y2)) {
         return false;
       }
     } else {
-      const auto ly = v1[1];
-      const auto [lx1, lx2] = std::minmax(v1[0], v2[0]);
+      const auto ly = v1[Y];
+      const auto [lx1, lx2] = std::minmax(v1[X], v2[X]);
       if (ly > y1 && ly < y2 && is_overlap(lx1, lx2, x1, x2)) {
         return false;
       }

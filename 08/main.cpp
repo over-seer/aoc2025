@@ -4,21 +4,22 @@
 #include "aoc.h"
 
 using Vec3 = std::array<int64_t, 3>;
+enum XYZ : size_t { X, Y, Z };
 
 auto parse(const std::string &fn) {
   auto parse_line = [](const std::string &s) {
     const std::array<std::string, 3> nos = aoc::splitn<3, ','>(s);
-    return Vec3{atoll(nos[0].c_str()), atoll(nos[1].c_str()),
-                atoll(nos[2].c_str())};
+    return Vec3{atoll(nos[X].c_str()), atoll(nos[Y].c_str()),
+                atoll(nos[Z].c_str())};
   };
   return aoc::read_file(fn) | std::views::transform(parse_line) |
          std::ranges::to<std::vector>();
 }
 
 auto dsq(const Vec3 &pos1, const Vec3 &pos2) {
-  const auto dx = pos1[0] - pos2[0];
-  const auto dy = pos1[1] - pos2[1];
-  const auto dz = pos1[2] - pos2[2];
+  const auto dx = pos1[X] - pos2[X];
+  const auto dy = pos1[Y] - pos2[Y];
+  const auto dz = pos1[Z] - pos2[Z];
   return dx * dx + dy * dy + dz * dz;
 }
 
@@ -89,10 +90,10 @@ void both_parts(const std::string &fn, size_t nlinks) {
   std::println("ans {}", ans);
 
   graphs.clear();
-  for (const auto & [_, i1, i2] : dists) {
+  for (const auto &[_, i1, i2] : dists) {
     graphs = add_cable(graphs, i1, i2);
     if (graphs.size() == 1 && graphs.at(0).size() == ip.size()) {
-      std::println("ans2 = {}", ip.at(i1)[0] * ip.at(i2)[0]);
+      std::println("ans2 = {}", ip.at(i1)[X] * ip.at(i2)[X]);
       break;
     }
   }
